@@ -1,9 +1,15 @@
 pipeline {
   agent any
   stages {
-    stage('') {
+    stage('Checkout Git') {
       steps {
-        sh 'echo \'Hello world! :D\''
+        git(url: 'https://github.com/adrian-lui/mr-jenk', branch: 'main')
+      }
+    }
+
+    stage('ls -la') {
+      steps {
+        sh 'ls -la'
       }
     }
 
