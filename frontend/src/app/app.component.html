@@ -1,0 +1,9 @@
+<div class="main-container">
+  <app-navbar></app-navbar>
+  <div class="main-body" *ngIf="isInitialized; else loading">
+    <router-outlet class="main-content"></router-outlet>
+  </div>
+</div>
+<ng-template #loading>
+  <app-spinner></app-spinner>
+</ng-template>

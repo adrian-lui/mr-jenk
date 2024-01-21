@@ -1,0 +1,27 @@
+.error-container {
+  margin-top: 1rem;
+  width: min-content;
+  min-width: 100%;
+
+  .message {
+    padding: 1rem;
+    border: 1px solid grey;
+    border-radius: 5px;
+    word-break: normal;
+
+    &.error {
+      background-color: pink;
+      color: red;
+    }
+
+    &.info {
+      background-color: rgb(204, 204, 204);
+      color: black;
+    }
+
+    &.success {
+      background-color: lightgreen;
+      color: green;
+    }
+  }
+}

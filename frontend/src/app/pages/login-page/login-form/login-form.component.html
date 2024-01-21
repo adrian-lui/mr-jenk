@@ -1,0 +1,19 @@
+<form [formGroup]="form">
+  <div class="login-form-container">
+    <mat-form-field>
+      <mat-label>email</mat-label>
+      <input matInput formControlName="email" />
+      <mat-error *ngIf="form.controls['email'].invalid"
+        >Email is required.</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>password</mat-label>
+      <input matInput formControlName="password" type="password" />
+      <mat-error *ngIf="form.controls['password'].invalid"
+        >Password is required.</mat-error
+      >
+    </mat-form-field>
+    <button mat-raised-button (click)="login()" type="submit">Login</button>
+  </div>
+</form>
