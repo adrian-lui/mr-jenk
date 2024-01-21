@@ -13,5 +13,12 @@ pipeline {
       }
     }
 
+    stage('Build') {
+      steps {
+        sh '''docker compose down
+docker compose up --build'''
+      }
+    }
+
   }
 }
