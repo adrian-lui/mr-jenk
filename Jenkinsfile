@@ -13,13 +13,23 @@ pipeline {
       }
     }
 
-    stage('Build') {
+    stage('Docker check') {
       steps {
-        sh '''/usr/local/bin/docker-compose down
-'''
-        sh '/usr/local/bin/docker-compose up --build'
+        sh 'docker version'
       }
     }
 
+    stage('Docker prune') {
+      steps {
+        sh 'docker system prune -a --volumes -f'
+      }
+    }
+
+    stage('Docker compose') {
+      steps {
+        sh 'docker compose up -d --no-color --wait'
+        sh 'docker compose ps'
+      }
+    }
   }
 }
