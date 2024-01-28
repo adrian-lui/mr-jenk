@@ -27,7 +27,7 @@ pipeline {
 
     stage('ssh to web app host') {
       steps {
-        sh 'ssh -tt -i /home/mr-jenk-admin/.ssh/buy-01-app_key.pem azureuser@20.82.141.107'
+        sh 'ssh -i azureuser@20.82.141.107'
         sh 'ls -la'
         sh 'exit'
       }
