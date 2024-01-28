@@ -19,17 +19,25 @@ pipeline {
       }
     }
 
-    stage('Docker prune') {
+    stage('ssh to web app host') {
       steps {
-        sh 'docker system prune -a --volumes -f'
+        sh 'ssh -i ssh -i ~/.ssh/buy-01-app_key.pem azureuser@20.82.141.107'
+        sh 'ls -la'
+        sh 'exit'
       }
     }
 
-    stage('Docker compose') {
-      steps {
-        sh 'docker compose up -d --no-color --wait'
-        sh 'docker compose ps'
-      }
-    }
+    // stage('Docker prune') {
+    //   steps {
+    //     sh 'docker system prune -a --volumes -f'
+    //   }
+    // }
+
+    // stage('Docker compose') {
+    //   steps {
+    //     sh 'docker compose up -d --no-color --wait'
+    //     sh 'docker compose ps'
+    //   }
+    // }
   }
 }
