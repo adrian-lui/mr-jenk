@@ -27,7 +27,7 @@ pipeline {
 
     stage('ssh to web app host') {
       steps {
-        sh 'ssh -i azureuser@20.82.141.107'
+        sh 'ssh azureuser@20.82.141.107'
         sh 'ls -la'
         sh 'exit'
       }
