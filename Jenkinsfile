@@ -27,7 +27,7 @@ pipeline {
 
     stage('ssh to web app host') {
       steps {
-        sh 'ssh -i .ssh/buy-01-app_key.pem azureuser@20.82.141.107'
+        sh 'ssh -i /var/lib/jenkins/.ssh/buy-01-app_key.pem azureuser@20.82.141.107'
         sh 'ls -la'
         sh 'exit'
       }
