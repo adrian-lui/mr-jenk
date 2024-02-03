@@ -1,0 +1,61 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - products
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /etc/ssl:/etc/ssl
+  users:
+    image: adrianlui/buy-01-users-service:main
+    environment:
+      - MONGO_HOST=db
+      - DOCS_API_URL=/api
+    depends_on:
+      - db
+  products:
+    image: adrianlui/buy-01-products-service:main
+    environment:
+      - MONGO_HOST=db
+      - DOCS_API_URL=/api
+    depends_on:
+      - db
+  media:
+    image: adrianlui/buy-01-media-service:main
+    environment:
+      - MEDIA_STORAGE_DIR=/app/media
+      - DOCS_API_URL=/api
+    volumes:
+      - lets-play-media:/app/media
+  orders:
+    image: adrianlui/buy-01-orders-service:main
+    environment:
+      - MONGO_HOST=db
+      - DOCS_API_URL=/api
+    depends_on:
+      - db
+  frontend:
+    image: adrianlui/buy-01-frontend:main
+  db:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - lets-play-db:/data/db
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    environment:
+      URLS: "[
+      {name:'Users',url:'/api/api-docs-users'},
+      {name:'Products',url:'/api/api-docs-products'},
+      {name:'Media',url:'/api/api-docs-media'},
+      {name:'Orders',url:'/api/api-docs-orders'}
+      ]"
+      BASE_URL: /api/docs
+volumes:
+  lets-play-db:
+  lets-play-media:
+
