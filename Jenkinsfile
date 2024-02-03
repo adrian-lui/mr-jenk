@@ -15,12 +15,12 @@ pipeline {
       steps {
         sh '''
         gradle --version
+        gradle test
         cd backend
         cd ..
         '''
       }
     }
-    // gradle test
 
     stage('frontend smoke test') {
       steps {
@@ -42,11 +42,11 @@ pipeline {
     stage('Docker build and push images') {
       steps {
         sh '''
-          docker system prune -a --volumes -f
           docker compose build --push
         '''
       }
     }
+          // docker system prune -a --volumes -f
 
     stage('ssh to web app host') {
       steps {
