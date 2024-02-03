@@ -22,7 +22,7 @@ pipeline {
         sh '''
         cd frontend
         npm install
-        ng test --no-watch
+        sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
         cd ..
         '''
       }
