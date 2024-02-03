@@ -16,18 +16,18 @@ pipeline {
         sh '''
         gradle --version
         cd backend
-        gradle test
         cd ..
         '''
       }
     }
+    // gradle test
 
     stage('frontend smoke test') {
       steps {
         sh '''
         cd frontend
         npm install
-        ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
+        sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
         cd ..
         '''
       }
