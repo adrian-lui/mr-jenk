@@ -10,6 +10,7 @@ pipeline {
     stage('backend gradle test') {
       steps {
         sh '''
+        gradle --version
         cd backend
         gradle test
         cd ..
