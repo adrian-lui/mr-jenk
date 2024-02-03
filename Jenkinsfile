@@ -26,6 +26,7 @@ pipeline {
       steps {
         sh '''
         cd frontend
+        npm install
         ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
         cd ..
         '''
