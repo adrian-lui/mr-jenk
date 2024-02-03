@@ -2,8 +2,23 @@ pipeline {
   agent any
   stages {
     stage('Checkout Git') {
-      steps {
-        git(url: 'https://github.com/adrian-lui/mr-jenk.git', branch: 'main')
+      parallel {
+        stage('Checkout Git') {
+          steps {
+            git(url: 'https://github.com/adrian-lui/mr-jenk.git', branch: 'main')
+          }
+        }
+
+        stage('') {
+          steps {
+            withGradle() {
+              nodejs 'buy-01'
+              withGradle()
+            }
+
+          }
+        }
+
       }
     }
 
@@ -22,7 +37,7 @@ pipeline {
       steps {
         sh '''
         cd frontend
-        ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
+        ng test --no-watch --browsers=\'ChromeHeadlessNoSandbox\'
         cd ..
         '''
       }
@@ -46,12 +61,13 @@ pipeline {
     stage('ssh to web app host') {
       steps {
         sh '''
-          ssh -tt -i /var/lib/jenkins/.ssh/jenkins.pem jenkins@20.82.141.107'
+          ssh -tt -i /var/lib/jenkins/.ssh/jenkins.pem jenkins@20.82.141.107\'
           docker compose down
           docker compose up
           exit
         '''
       }
     }
+
   }
 }
