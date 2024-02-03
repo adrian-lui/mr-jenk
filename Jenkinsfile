@@ -42,7 +42,7 @@ pipeline {
     stage('Docker build and push images') {
       steps {
         sh '''
-          echo $DOCKER_PW | docker login --username=adrianlui --password-stdin
+          docker login --username=adrianlui --password=$DOCKER_PW
           docker compose build --push
         '''
       }
