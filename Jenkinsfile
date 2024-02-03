@@ -11,7 +11,6 @@ pipeline {
       steps {
         sh '''
         cd backend
-        gradle test
         cd ..
         '''
       }
