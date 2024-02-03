@@ -42,6 +42,7 @@ pipeline {
     stage('Docker build and push images') {
       steps {
         sh '''
+          docker login
           docker compose build --push
         '''
       }
