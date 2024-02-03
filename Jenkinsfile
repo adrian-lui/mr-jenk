@@ -16,6 +16,16 @@ pipeline {
       }
     }
 
+    stage('frontend smoke test') {
+      steps {
+        sh '''
+        cd frontend
+        ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
+        cd ..
+        '''
+      }
+    }
+
     stage('Docker check') {
       steps {
         sh 'docker version'
