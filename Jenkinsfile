@@ -1,13 +1,13 @@
-pipeline {
-  node {
-      env.NODEJS_HOME = "${tool 'Node 20.x'}"
-      // on linux / mac
-      env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
-      // on windows
-      env.PATH="${env.NODEJS_HOME};${env.PATH}"
-      sh 'npm --version'
-  }
+node {
+    env.NODEJS_HOME = "${tool 'Node 20.x'}"
+    // on linux / mac
+    env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
+    // on windows
+    env.PATH="${env.NODEJS_HOME};${env.PATH}"
+    sh 'npm --version'
+}
 
+pipeline {
   agent any
   stages {
     stage('Checkout Git') {
