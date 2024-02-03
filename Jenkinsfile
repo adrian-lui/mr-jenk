@@ -11,27 +11,27 @@ pipeline {
       }
     }
 
-    stage('backend gradle test') {
-      steps {
-        // sh '''
-        // gradle --version
-        // cd backend
-        // gradle test
-        // cd ..
-        // '''
-      }
-    }
+    // stage('backend gradle test') {
+    //   steps {
+    //     sh '''
+    //     gradle --version
+    //     cd backend
+    //     gradle test
+    //     cd ..
+    //     '''
+    //   }
+    // }
 
-    stage('frontend smoke test') {
-      steps {
-        // sh '''
-        // cd frontend
-        // npm install
-        // sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
-        // cd ..
-        // '''
-      }
-    }
+    // stage('frontend smoke test') {
+    //   steps {
+    //     sh '''
+    //     cd frontend
+    //     npm install
+    //     sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
+    //     cd ..
+    //     '''
+    //   }
+    // }
 
     stage('Docker check') {
       steps {
