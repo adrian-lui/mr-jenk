@@ -52,9 +52,8 @@ pipeline {
     stage('ssh to web app host') {
       steps {
         sh '''
-          sudo ssh -tt -i /var/lib/jenkins/.ssh/jenkins.pem jenkins@20.82.141.107
-          docker compose down
-          docker compose up
+          sudo ssh -i /var/lib/jenkins/.ssh/jenkins.pem -t jenkins@20.82.141.107 docker compose down
+          sudo ssh -i /var/lib/jenkins/.ssh/jenkins.pem -t jenkins@20.82.141.107 docker compose up -d
           exit
         '''
       }
