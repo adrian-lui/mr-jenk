@@ -53,8 +53,8 @@ pipeline {
 
     stage('ssh to web app host') {
       steps {
-        sh 'sudo ssh -i $SSH_KEY -t jenkins@20.82.141.107 REVISION=$BUILD_NUMBER | docker compose down'
-        sh 'sudo ssh -i $SSH_KEY -t jenkins@20.82.141.107 REVISION=$BUILD_NUMBER | docker compose up -d'
+        sh "sudo ssh -i ${SSH_KEY} -t jenkins@20.82.141.107 docker compose down"
+        sh "sudo ssh -i ${SSH_KEY} -t jenkins@20.82.141.107 REVISION=${env.BUILD_NUMBER} | docker compose up -d"
         sh "exit"
       }
     }
@@ -62,7 +62,7 @@ pipeline {
     stage('save build') {
       steps {
         sh "export BUILD=${env.BUILD_NUMBER}"
-        sh 'echo Last successful build is now $BUILD'
+        sh "echo Last successful build is now ${BUILD}"
       }
     }
   }
