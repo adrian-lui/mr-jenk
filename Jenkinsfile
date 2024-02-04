@@ -45,24 +45,24 @@ pipeline {
 
     stage('Docker build and push images') {
       steps {
+        sh "echo build name is ${env.BUILD_NUMBER}"
         sh 'docker login --username=$DOCKER_HUB_USR --password=$DOCKER_HUB_PSW'
-        sh 'REVISION=${env.BUILD_NUMBER} | docker compose build --push'
+        sh "REVISION=${env.BUILD_NUMBER} | docker compose build --push"
       }
     }
 
     stage('ssh to web app host') {
       steps {
-        sh '''
-          sudo ssh -i $SSH_KEY -t jenkins@20.82.141.107 REVISION=${env.BUILD_NUMBER} | docker compose down
-          sudo ssh -i $SSH_KEY -t jenkins@20.82.141.107 REVISION=${env.BUILD_NUMBER} | docker compose up -d
-          exit
-        '''
+        sh 'sudo ssh -i $SSH_KEY -t jenkins@20.82.141.107 REVISION=$BUILD_NUMBER | docker compose down'
+        sh 'sudo ssh -i $SSH_KEY -t jenkins@20.82.141.107 REVISION=$BUILD_NUMBER | docker compose up -d'
+        sh "exit"
       }
     }
 
     stage('save build') {
       steps {
-        sh 'BUILD=${env.BUILD_NUMBER}'
+        sh "export BUILD=${env.BUILD_NUMBER}"
+        sh 'echo Last successful build is now $BUILD'
       }
     }
   }
