@@ -10,7 +10,7 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /etc/ssl:/etc/ssl
   users:
-    image: "adrianlui/buy-01-users-service:$${REVISION}"
+    image: "adrianlui/buy-01-users-service:${REVISION}"
     platform: linux/amd64
     build:
       context: backend
@@ -22,7 +22,7 @@ services:
     depends_on:
       - db
   products:
-    image: "adrianlui/buy-01-products-service:$${REVISION}"
+    image: "adrianlui/buy-01-products-service:${REVISION}"
     platform: linux/amd64
     build:
       context: backend
@@ -34,7 +34,7 @@ services:
     depends_on:
       - db
   media:
-    image: "adrianlui/buy-01-media-service:$${REVISION}"
+    image: "adrianlui/buy-01-media-service:${REVISION}"
     platform: linux/amd64
     build:
       context: backend
@@ -46,7 +46,7 @@ services:
     volumes:
       - lets-play-media:/app/media
   orders:
-    image: "adrianlui/buy-01-orders-service:$${REVISION}"
+    image: "adrianlui/buy-01-orders-service:${REVISION}"
     platform: linux/amd64
     build:
       context: backend
@@ -58,7 +58,7 @@ services:
     depends_on:
       - db
   frontend:
-    image: "adrianlui/buy-01-frontend:$${REVISION}"
+    image: "adrianlui/buy-01-frontend:${REVISION}"
     platform: linux/amd64
     build:
       context: frontend
