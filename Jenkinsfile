@@ -53,6 +53,7 @@ pipeline {
 
     stage('ssh to web app host') {
       steps {
+        sh "sudo scp -i ${SSH_KEY} deployment.yml jenkins@20.82.141.107:~/docker-compose.yml"
         sh "sudo ssh -i ${SSH_KEY} -t jenkins@20.82.141.107 docker compose down"
         sh "sudo ssh -i ${SSH_KEY} -t jenkins@20.82.141.107 REVISION=${env.BUILD_NUMBER} | docker compose up -d"
         sh "exit"
