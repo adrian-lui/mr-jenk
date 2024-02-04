@@ -62,7 +62,7 @@ pipeline {
         sh "sudo scp -i ${SSH_KEY} deployment.yml jenkins@20.82.141.107:~/docker-compose.yml"
         sh "sudo scp -i ${SSH_KEY} ../.env jenkins@20.82.141.107:~/.env"
         sh "sudo ssh -i ${SSH_KEY} -t jenkins@20.82.141.107 docker compose down"
-        sh "sudo ssh -i ${SSH_KEY} -t jenkins@20.82.141.107 docker compose --env-file .env up -d"
+        sh "sudo ssh -i ${SSH_KEY} -t jenkins@20.82.141.107 docker compose --env-file .envv up -d"
         sh "exit"
       }
     }
