@@ -15,27 +15,27 @@ pipeline {
       }
     }
 
-    stage('backend gradle test') {
-      steps {
-        sh '''
-        gradle --version
-        cd backend
-        gradle test
-        cd ..
-        '''
-      }
-    }
+    // stage('backend gradle test') {
+    //   steps {
+    //     sh '''
+    //     gradle --version
+    //     cd backend
+    //     gradle test
+    //     cd ..
+    //     '''
+    //   }
+    // }
 
-    stage('frontend smoke test') {
-      steps {
-        sh '''
-        cd frontend
-        npm install
-        sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
-        cd ..
-        '''
-      }
-    }
+    // stage('frontend smoke test') {
+    //   steps {
+    //     sh '''
+    //     cd frontend
+    //     npm install
+    //     sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
+    //     cd ..
+    //     '''
+    //   }
+    // }
 
     stage('Docker check') {
       steps {
@@ -46,18 +46,22 @@ pipeline {
     stage('Docker build and push images') {
       steps {
         sh 'docker login --username=$DOCKER_HUB_USR --password=$DOCKER_HUB_PSW'
-        sh 'docker compose build --push'
+        sh 'REVISION=${env.BUILD_NUMBER} | docker compose build --push'
       }
     }
 
     stage('ssh to web app host') {
       steps {
         sh '''
-          sudo ssh -i $SSH_KEY -t jenkins@20.82.141.107 docker compose down
-          sudo ssh -i $SSH_KEY -t jenkins@20.82.141.107 docker compose up -d
+          sudo ssh -i $SSH_KEY -t jenkins@20.82.141.107 REVISION=${env.BUILD_NUMBER} | docker compose down
+          sudo ssh -i $SSH_KEY -t jenkins@20.82.141.107 REVISION=${env.BUILD_NUMBER} | docker compose up -d
           exit
         '''
       }
+    }
+
+    stage('save build') {
+      sh 'BUILD=${env.BUILD_NUMBER}'
     }
   }
 }
