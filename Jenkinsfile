@@ -7,6 +7,7 @@ pipeline {
   environment {
     DOCKER_HUB = credentials('docker-hub')
     SSH_KEY = credentials('ssh-key')
+    ROLLBACK = credentials('rollback-user')
   }
   stages {
     stage('Checkout Git') {
@@ -80,7 +81,8 @@ pipeline {
       mail bcc: '', body: "<b>mr-jenk build success</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> Go to URL of build to check details: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'luinairda@gmail.com', mimeType: 'text/html', replyTo: '', subject: "[mr-jenk] Success -> ${env.JOB_NAME}", to: "luinairda@gmail.com";
     }
     failure {
-      sh "sudo echo Build unsuccessful. If deployment fails, please run rollback job"
+      sh "sudo echo Build fails. Rolling back to last stable build."
+      sh 'sudo curl -u $ROLLBACK_USR:$ROLLBACK_PSW http://74.234.33.226:8080/job/mr-jenk-rollback/build?token=stable-version'
       mail bcc: '', body: "<b>mr-jenk build failure</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> Go to URL of build to check details: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'luinairda@gmail.com', mimeType: 'text/html', replyTo: '', subject: "[mr-jenk] Fail -> ${env.JOB_NAME}", to: "luinairda@gmail.com";
     }
     unstable {
