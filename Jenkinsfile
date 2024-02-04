@@ -43,6 +43,12 @@ pipeline {
       }
     }
 
+    stage('Set build tag') {
+      steps {
+        sh "sudo echo REVISION=${env.BUILD_NUMBER} | cat > ../.env"
+      }
+    }
+
     stage('Docker build and push images') {
       steps {
         sh 'docker login --username=$DOCKER_HUB_USR --password=$DOCKER_HUB_PSW'
@@ -61,10 +67,10 @@ pipeline {
       }
     }
 
-    stage('save build') {
+    stage('save last successful build') {
       steps {
-        sh "export BUILD=${env.BUILD_NUMBER}"
         sh "echo Last successful build is now ${BUILD}"
+        sh "sudo echo REVISION=${env.BUILD_NUMBER} | cat > ../.last_successful_env"
       }
     }
   }
