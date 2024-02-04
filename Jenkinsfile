@@ -46,9 +46,8 @@ pipeline {
     stage('Docker build and push images') {
       steps {
         sh 'docker login --username=$DOCKER_HUB_USR --password=$DOCKER_HUB_PSW'
-        sh "export REVISION=${env.BUILD_NUMBER}"
+        sh "export REVISION=${env.BUILD_NUMBER} | docker compose build --push"
         sh "echo build version is ${REVISION}"
-        sh "docker compose build --push"
         sh "sudo rm -rf /var/lib/jenkins/workspace/mr-jenk_main/frontend/.angular" // clear bug cache
       }
     }
