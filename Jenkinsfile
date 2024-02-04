@@ -15,27 +15,27 @@ pipeline {
       }
     }
 
-    // stage('backend gradle test') {
-    //   steps {
-    //     sh '''
-    //     gradle --version
-    //     cd backend
-    //     gradle test
-    //     cd ..
-    //     '''
-    //   }
-    // }
+    stage('backend gradle test') {
+      steps {
+        sh '''
+        gradle --version
+        cd backend
+        gradle test
+        cd ..
+        '''
+      }
+    }
 
-    // stage('frontend smoke test') {
-    //   steps {
-    //     sh '''
-    //     cd frontend
-    //     npm install
-    //     sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
-    //     cd ..
-    //     '''
-    //   }
-    // }
+    stage('frontend smoke test') {
+      steps {
+        sh '''
+        cd frontend
+        npm install
+        sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
+        cd ..
+        '''
+      }
+    }
 
     stage('Docker check') {
       steps {
@@ -49,7 +49,6 @@ pipeline {
         sh 'docker compose build --push'
       }
     }
-          // docker system prune -a --volumes -f
 
     stage('ssh to web app host') {
       steps {
