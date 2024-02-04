@@ -14,6 +14,7 @@ services:
     environment:
       - MONGO_HOST=db
       - DOCS_API_URL=/api
+      - REVISION=${REVISION}
     depends_on:
       - db
   products:
@@ -21,6 +22,7 @@ services:
     environment:
       - MONGO_HOST=db
       - DOCS_API_URL=/api
+      - REVISION=${REVISION}
     depends_on:
       - db
   media:
@@ -28,6 +30,7 @@ services:
     environment:
       - MEDIA_STORAGE_DIR=/app/media
       - DOCS_API_URL=/api
+      - REVISION=${REVISION}
     volumes:
       - lets-play-media:/app/media
   orders:
@@ -35,10 +38,13 @@ services:
     environment:
       - MONGO_HOST=db
       - DOCS_API_URL=/api
+      - REVISION=${REVISION}
     depends_on:
       - db
   frontend:
     image: adrianlui/buy-01-frontend:${REVISION}
+    environment:
+      - REVISION=${REVISION}
   db:
     image: mongo
     ports:
