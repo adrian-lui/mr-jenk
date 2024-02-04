@@ -61,7 +61,9 @@ pipeline {
     }
 
     stage('save build') {
-      sh 'BUILD=${env.BUILD_NUMBER}'
+      steps {
+        sh 'BUILD=${env.BUILD_NUMBER}'
+      }
     }
   }
 }
