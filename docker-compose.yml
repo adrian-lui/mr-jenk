@@ -19,6 +19,7 @@ services:
     environment:
       - MONGO_HOST=db
       - DOCS_API_URL=/api
+      - REVISION
     depends_on:
       - db
   products:
