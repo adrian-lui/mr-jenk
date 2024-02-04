@@ -67,17 +67,12 @@ pipeline {
         sh "exit"
       }
     }
-
-    stage('save last successful build') {
-      steps {
-        sh "sudo echo Last successful build is now ${env.BUILD_NUMBER}"
-        sh "sudo echo REVISION=${env.BUILD_NUMBER} | cat > ../.last_success_env"
-      }
-    }
   }
 
   post {
     success {
+      sh "sudo echo Last successful build is now ${env.BUILD_NUMBER}"
+      sh "sudo echo REVISION=${env.BUILD_NUMBER} | cat > ../.last_success_env"
       mail bcc: '', body: "<b>mr-jenk build success</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> Go to URL of build to check details: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'luinairda@gmail.com', mimeType: 'text/html', replyTo: '', subject: "[mr-jenk] Success -> ${env.JOB_NAME}", to: "luinairda@gmail.com";
     }
     failure {
