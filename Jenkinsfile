@@ -16,27 +16,27 @@ pipeline {
       }
     }
 
-    // stage('backend gradle test') {
-    //   steps {
-    //     sh '''
-    //     gradle --version
-    //     cd backend
-    //     gradle test
-    //     cd ..
-    //     '''
-    //   }
-    // }
+    stage('backend gradle test') {
+      steps {
+        sh '''
+        gradle --version
+        cd backend
+        gradle test
+        cd ..
+        '''
+      }
+    }
 
-    // stage('frontend smoke test') {
-    //   steps {
-    //     sh '''
-    //     cd frontend
-    //     npm install
-    //     sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
-    //     cd ..
-    //     '''
-    //   }
-    // }
+    stage('frontend smoke test') {
+      steps {
+        sh '''
+        cd frontend
+        npm install
+        sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
+        cd ..
+        '''
+      }
+    }
 
     stage('Docker check') {
       steps {
@@ -63,7 +63,7 @@ pipeline {
         sh "sudo scp -i ${SSH_KEY} deployment.yml jenkins@20.82.141.107:~/docker-compose.yml"
         sh "sudo scp -i ${SSH_KEY} ../.env jenkins@20.82.141.107:~/.env"
         sh "sudo ssh -i ${SSH_KEY} -t jenkins@20.82.141.107 docker compose down"
-        sh "sudo ssh -i ${SSH_KEY} -t jenkins@20.82.141.107 docker compose --env-file .envv up -d"
+        sh "sudo ssh -i ${SSH_KEY} -t jenkins@20.82.141.107 docker compose --env-file .env up -d"
         sh "exit"
       }
     }
