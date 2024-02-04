@@ -74,19 +74,21 @@ pipeline {
       }
     }
 
-    post {
-      success {
-          mail bcc: '', body: "<b>mr-jenk build success</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'luinairda@gmail.com', mimeType: 'text/html', replyTo: '', subject: "[mr-jenk] Success -> ${env.JOB_NAME}", to: "${DEFAULT_RECIPIENTS}";
+    stage {
+      post {
+        success {
+            mail bcc: '', body: "<b>mr-jenk build success</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'luinairda@gmail.com', mimeType: 'text/html', replyTo: '', subject: "[mr-jenk] Success -> ${env.JOB_NAME}", to: "${DEFAULT_RECIPIENTS}";
+        }
+        failure {
+            sh "sudo echo Build unsuccessful. If deployment fails, please run rollback job"
+            // Sending an email notification with details about the failure
+            mail bcc: '', body: "<b>mr-jenk build failure</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'luinairda@gmail.com', mimeType: 'text/html', replyTo: '', subject: "[mr-jenk] Fail -> ${env.JOB_NAME}", to: "${DEFAULT_RECIPIENTS}";
+        }
+        unstable {
+            sh "sudo echo Build unstable. If deployment fails, please run rollback job"
+            mail bcc: '', body: "<b>mr-jenk build unstable</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'luinairda@gmail.com', mimeType: 'text/html', replyTo: '', subject: "[mr-jenk] Unstable -> ${env.JOB_NAME}", to: "${DEFAULT_RECIPIENTS}";
+        }
       }
-      failure {
-          sh "sudo echo Build unsuccessful. If deployment fails, please run rollback job"
-          // Sending an email notification with details about the failure
-          mail bcc: '', body: "<b>mr-jenk build failure</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'luinairda@gmail.com', mimeType: 'text/html', replyTo: '', subject: "[mr-jenk] Fail -> ${env.JOB_NAME}", to: "${DEFAULT_RECIPIENTS}";
-      }
-      unstable {
-          sh "sudo echo Build unstable. If deployment fails, please run rollback job"
-          mail bcc: '', body: "<b>mr-jenk build unstable</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'luinairda@gmail.com', mimeType: 'text/html', replyTo: '', subject: "[mr-jenk] Unstable -> ${env.JOB_NAME}", to: "${DEFAULT_RECIPIENTS}";
-      }
-     }
+    }
   }
 }
