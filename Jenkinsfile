@@ -46,16 +46,17 @@ pipeline {
     stage('Docker build and push images') {
       steps {
         sh 'docker login --username=$DOCKER_HUB_USR --password=$DOCKER_HUB_PSW'
-        sh "REVISION=${env.BUILD_NUMBER} | docker compose --env-file /var/lib/jenkins/workspace/.env build --push"
-        sh "sudo rm -rf /var/lib/jenkins/workspace/mr-jenk_main/frontend/.angular" // clear bug cache
+        sh "docker compose --env-file ../.env build --push"
+        sh "sudo rm -rf ./frontend/.angular" // clear bug cache
       }
     }
 
     stage('ssh to web app host') {
       steps {
         sh "sudo scp -i ${SSH_KEY} deployment.yml jenkins@20.82.141.107:~/docker-compose.yml"
+        sh "sudo scp -i ${SSH_KEY} ../.env jenkins@20.82.141.107:~/.env"
         sh "sudo ssh -i ${SSH_KEY} -t jenkins@20.82.141.107 docker compose down"
-        sh "sudo ssh -i ${SSH_KEY} -t jenkins@20.82.141.107 REVISION=${env.BUILD_NUMBER} | docker compose up -d"
+        sh "sudo ssh -i ${SSH_KEY} -t jenkins@20.82.141.107 docker compose --env-file .env up -d"
         sh "exit"
       }
     }
