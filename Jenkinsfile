@@ -38,27 +38,17 @@ pipeline {
       }
     }
 
-    stage('Docker check') {
-      steps {
-        sh 'docker version'
-      }
-    }
-
-    stage('Set build tag') {
-      steps {
-        sh "sudo echo REVISION=${env.BUILD_NUMBER} | cat > ../.env"
-      }
-    }
-
     stage('Docker build and push images') {
       steps {
+        sh "sudo echo REVISION=${env.BUILD_NUMBER} | cat > ../.env"
+        sh "docker version"
         sh 'docker login --username=$DOCKER_HUB_USR --password=$DOCKER_HUB_PSW'
         sh "docker compose --env-file ../.env build --push"
         sh "sudo rm -rf ./frontend/.angular" // clear bug cache
       }
     }
 
-    stage('ssh to web app host') {
+    stage('Deploy to web app host') {
       steps {
         sh "sudo scp -i ${SSH_KEY} deployment.yml jenkins@20.82.141.107:~/docker-compose.yml"
         sh "sudo scp -i ${SSH_KEY} ../.env jenkins@20.82.141.107:~/.env"
