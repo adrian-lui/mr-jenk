@@ -15,27 +15,27 @@ pipeline {
       }
     }
 
-    // stage('backend gradle test') {
-    //   steps {
-    //     sh '''
-    //     gradle --version
-    //     cd backend
-    //     gradle test
-    //     cd ..
-    //     '''
-    //   }
-    // }
+    stage('backend gradle test') {
+      steps {
+        sh '''
+        gradle --version
+        cd backend
+        gradle test
+        cd ..
+        '''
+      }
+    }
 
-    // stage('frontend smoke test') {
-    //   steps {
-    //     sh '''
-    //     cd frontend
-    //     npm install
-    //     sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
-    //     cd ..
-    //     '''
-    //   }
-    // }
+    stage('frontend smoke test') {
+      steps {
+        sh '''
+        cd frontend
+        npm install
+        sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
+        cd ..
+        '''
+      }
+    }
 
     stage('Docker check') {
       steps {
@@ -69,7 +69,7 @@ pipeline {
 
     stage('save last successful build') {
       steps {
-        sh "echo Last successful build is now ${BUILD}"
+        sh "sudo echo Last successful build is now ${env.BUILD_NUMBER}"
         sh "sudo echo REVISION=${env.BUILD_NUMBER} | cat > ../.last_successful_env"
       }
     }
