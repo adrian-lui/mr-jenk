@@ -4,6 +4,10 @@ pipeline {
     gradle '8.5'
     nodejs '20.8.1'
   }
+  environment {
+    DOCKER_HUB = credentials('docker-hub')
+    SSH_KEY = credentials('ssh-key')
+  }
   stages {
     stage('Checkout Git') {
       steps {
@@ -41,10 +45,8 @@ pipeline {
 
     stage('Docker build and push images') {
       steps {
-        sh '''
-          docker login --username=adrianlui --password=$DOCKER_PW
-          docker compose build --push
-        '''
+        sh 'docker login --username=$DOCKER_HUB_USR --password=$DOCKER_HUB_PSW'
+        sh 'docker compose build --push'
       }
     }
           // docker system prune -a --volumes -f
@@ -52,8 +54,8 @@ pipeline {
     stage('ssh to web app host') {
       steps {
         sh '''
-          sudo ssh -i /var/lib/jenkins/.ssh/jenkins.pem -t jenkins@20.82.141.107 docker compose down
-          sudo ssh -i /var/lib/jenkins/.ssh/jenkins.pem -t jenkins@20.82.141.107 docker compose up -d
+          sudo ssh -i $SSH_KEY -t jenkins@20.82.141.107 docker compose down
+          sudo ssh -i $SSH_KEY -t jenkins@20.82.141.107 docker compose up -d
           exit
         '''
       }
