@@ -44,7 +44,7 @@ pipeline {
         sh "docker version"
         sh 'docker login --username=$DOCKER_HUB_USR --password=$DOCKER_HUB_PSW'
         sh "docker compose --env-file ../.env build --push"
-        sh "rm -rf ./frontend/.angular" // clear bug cache
+        sh "sudo rm -rf ./frontend/.angular" // clear bug cache
       }
     }
 
