@@ -44,7 +44,6 @@ pipeline {
         sh "docker version"
         sh 'docker login --username=$DOCKER_HUB_USR --password=$DOCKER_HUB_PSW'
         sh "docker compose --env-file ../.env build --push"
-        sh "sudo rm -rf ./frontend/.angular" // clear bug cache
       }
     }
 
@@ -60,6 +59,9 @@ pipeline {
   }
 
   post {
+    always {
+        sh "sudo rm -rf ./frontend/.angular" // clear bug cache
+    }
     success {
       sh "sudo echo Last successful build is now ${env.BUILD_NUMBER}"
       sh "sudo echo REVISION=${env.BUILD_NUMBER} | cat > ../.last_success_env"
