@@ -32,7 +32,7 @@ pipeline {
         sh '''
         cd frontend
         npm install
-        ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
+        sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
         cd ..
         '''
       }
