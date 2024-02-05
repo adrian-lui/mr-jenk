@@ -10,7 +10,8 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /etc/ssl:/etc/ssl
   users:
-    image: adrianlui/buy-01-users-service:${REVISION}
+    -asdqowjfwqqkwlf
+    qw'l;fk
     environment:
       - MONGO_HOST=db
       - DOCS_API_URL=/api
