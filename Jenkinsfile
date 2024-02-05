@@ -25,6 +25,11 @@ pipeline {
         cd ..
         '''
       }
+      post {
+        always {
+            junit '**/test-results/test/TEST-*.xml'
+        }
+      }
     }
 
     stage('frontend smoke test') {
