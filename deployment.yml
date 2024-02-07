@@ -7,7 +7,22 @@ services:
     depends_on:
       - products
     volumes:
- =as;ldjqwio
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /etc/ssl:/etc/ssl
+  users:
+    image: adrianlui/buy-01-users-service:${REVISION}
+    environment:
+      - MONGO_HOST=db
+      - DOCS_API_URL=/api
+    depends_on:
+      - db
+  products:
+    image: adrianlui/buy-01-products-service:${REVISION}
+    environment:
+      - MONGO_HOST=db
+      - DOCS_API_URL=/api
+    depends_on:
+      - db
   media:
     image: adrianlui/buy-01-media-service:${REVISION}
     environment:
@@ -29,7 +44,7 @@ services:
     ports:
       - '27017:27017'
     volumes:
-      - lets-play-db:/data/dbsadasdq
+      - lets-play-db:/data/db
   swagger-ui:
     image: swaggerapi/swagger-ui
     environment:

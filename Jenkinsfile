@@ -16,32 +16,32 @@ pipeline {
       }
     }
 
-    // stage('backend gradle test') {
-    //   steps {
-    //     sh '''
-    //     gradle --version
-    //     cd backend
-    //     gradle test
-    //     cd ..
-    //     '''
-    //   }
-    //   post {
-    //     always {
-    //         junit '**/test-results/test/TEST-*.xml'
-    //     }
-    //   }
-    // }
+    stage('backend gradle test') {
+      steps {
+        sh '''
+        gradle --version
+        cd backend
+        gradle test
+        cd ..
+        '''
+      }
+      post {
+        always {
+            junit '**/test-results/test/TEST-*.xml'
+        }
+      }
+    }
 
-    // stage('frontend smoke test') {
-    //   steps {
-    //     sh '''
-    //     cd frontend
-    //     npm install
-    //     sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
-    //     cd ..
-    //     '''
-    //   }
-    // }
+    stage('frontend smoke test') {
+      steps {
+        sh '''
+        cd frontend
+        npm install
+        sudo ng test --no-watch --browsers='ChromeHeadlessNoSandbox'
+        cd ..
+        '''
+      }
+    }
 
     stage('Docker build and push images') {
       steps {
