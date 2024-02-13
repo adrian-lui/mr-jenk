@@ -7,7 +7,7 @@ services:
       - sonarqube-database
     environment:
       - SONARQUBE_JDBC_USERNAME=admin
-      - SONARQUBE_JDBC_PASSWORD=password
+      - SONARQUBE_JDBC_PASSWORD=admin
       - SONARQUBE_JDBC_URL=jdbc:postgresql://sonarqube-database:5432/sonarqube
     volumes:
       - sonarqube_conf:/opt/sonarqube/conf
