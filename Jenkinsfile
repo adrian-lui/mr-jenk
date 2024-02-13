@@ -16,6 +16,12 @@ pipeline {
       }
     }
 
+    stage('start SonarQube server in docker') {
+      steps {
+        sh 'docker compose -f sonarqube.yml up -d'
+      }
+    }
+
     stage('SonarQube analysis') {
       environment {
         scannerHome = tool 'safe-zone-scanner';
@@ -77,6 +83,7 @@ pipeline {
   post {
     always {
         sh "sudo rm -rf ./frontend/.angular" // clear bug cache
+        sh "docker compose down"
     }
     success {
       sh "sudo echo Last successful build is now ${env.BUILD_NUMBER}"
