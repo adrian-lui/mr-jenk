@@ -6,7 +6,8 @@ build/
 *.jar
 gradlew
 gradlew.bat
-
+**/.scannerwork
+**/coverage
 ### STS ###
 .apt_generated
 .classpath
