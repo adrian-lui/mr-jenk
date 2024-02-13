@@ -46,7 +46,7 @@ export class SignupFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.profile) {
       this.form.patchValue(this.profile);
-      this.imageUploaded = this.profile.image || '';
+      this.imageUploaded = this.profile.image ?? '';
       this.form.removeControl('password');
       this.form.removeControl('role');
     }

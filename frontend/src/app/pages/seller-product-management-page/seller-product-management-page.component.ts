@@ -35,7 +35,7 @@ export class SellerProductManagementPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fetchProductsSellerManagement(localStorage.getItem('userId') || '');
+    this.fetchProductsSellerManagement(localStorage.getItem('userId') ?? '');
   }
 
   openProductDetailsDialog(product: Product) {
@@ -92,7 +92,7 @@ export class SellerProductManagementPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.result = result;
       this.fetchProductsSellerManagement(
-        localStorage.getItem('userId') || '',
+        localStorage.getItem('userId') ?? '',
         true
       );
     });
@@ -106,7 +106,7 @@ export class SellerProductManagementPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.result = result;
       this.fetchProductsSellerManagement(
-        localStorage.getItem('userId') || '',
+        localStorage.getItem('userId') ?? '',
         true
       );
     });

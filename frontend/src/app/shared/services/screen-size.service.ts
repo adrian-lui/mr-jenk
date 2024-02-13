@@ -30,7 +30,7 @@ export class ScreenSizeService implements OnDestroy {
       .subscribe((result) => {
         for (const query of Object.keys(result.breakpoints)) {
           if (result.breakpoints[query]) {
-            this.currentScreenSize = this.displayNameMap.get(query) || 'XS';
+            this.currentScreenSize = this.displayNameMap.get(query) ?? 'XS';
           }
         }
       });

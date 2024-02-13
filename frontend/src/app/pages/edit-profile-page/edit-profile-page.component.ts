@@ -31,7 +31,7 @@ export class EditProfilePageComponent {
 
   updateProfile(userDetails: Profile) {
     this.result = undefined;
-    if (!this.authService.profile || !this.authService.profile.id) {
+    if (!this.authService.profile?.id) {
       this.result = {
         type: 'error',
         message: 'Update profile goes wrong.',

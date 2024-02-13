@@ -66,7 +66,6 @@ export class OrderService {
     );
   }
 
-  // TODO:
   updateOrderStatus(orderId: string, status: OrderStatus): Observable<any> {
     return this.http.put(
       this.orderApiBaseUrl + '/' + orderId,
@@ -79,7 +78,6 @@ export class OrderService {
     );
   }
 
-  // TODO:
   deleteOrder(orderId: string): Observable<any> {
     return this.http.delete(this.orderApiBaseUrl + '/' + orderId, {
       withCredentials: true,

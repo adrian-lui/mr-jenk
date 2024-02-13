@@ -56,19 +56,19 @@ export class ProductListingPageComponent implements OnInit {
               type: 'info',
               message: 'The product list is currently empty.',
             };
-            return;
+          } else {
+            const owners = await firstValueFrom(
+              this.userService.getUsers(
+                products.map((product: Product) => product.userId)
+              )
+            );
+            products.map((product, i) => {
+              product['owner'] = owners[i]?.name || 'NotFound';
+              return product;
+            });
+            this.products = products.slice().reverse();
+            this.dataSource = products.slice().reverse();
           }
-          const owners = await firstValueFrom(
-            this.userService.getUsers(
-              products.map((product: Product) => product.userId)
-            )
-          );
-          products.map((product, i) => {
-            product['owner'] = owners[i]?.name || 'NotFound';
-            return product;
-          });
-          this.products = products.slice().reverse();
-          this.dataSource = products.slice().reverse();
         },
         error: (error) => {
           const errorMessage =
