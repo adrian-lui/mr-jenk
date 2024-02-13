@@ -1,14 +1,3 @@
-node {
-  stage('SCM') {
-    checkout scm
-  }
-  stage('SonarQube Analysis') {
-    withSonarQubeEnv() {
-      sh "./gradlew sonar"
-    }
-  }
-}
-
 pipeline {
   agent any
   tools {
@@ -24,6 +13,13 @@ pipeline {
     stage('Checkout Git') {
       steps {
         git(url: 'https://github.com/adrian-lui/mr-jenk.git', branch: 'main')
+      }
+    }
+
+    stage('SonarQube analysis') {
+      def scannerHome = tool 'sonar-cube-scanner';
+      withSonarQubeEnv('sonar-cube-server') { // If you have configured more than one global server connection, you can specify its name
+        sh "${scannerHome}/bin/sonar-scanner"
       }
     }
 
