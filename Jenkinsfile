@@ -1,3 +1,14 @@
+node {
+  stage('SCM') {
+    checkout scm
+  }
+  stage('SonarQube Analysis') {
+    withSonarQubeEnv() {
+      sh "./gradlew sonar"
+    }
+  }
+}
+
 pipeline {
   agent any
   tools {
@@ -13,16 +24,6 @@ pipeline {
     stage('Checkout Git') {
       steps {
         git(url: 'https://github.com/adrian-lui/mr-jenk.git', branch: 'main')
-      }
-    }
-
-    stage('SCM') {
-      checkout scm
-    }
-    
-    stage('SonarQube Analysis') {
-      withSonarQubeEnv() {
-        sh "./gradlew sonar"
       }
     }
 
