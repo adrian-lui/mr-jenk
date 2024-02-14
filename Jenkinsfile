@@ -16,12 +16,6 @@ pipeline {
       }
     }
 
-    stage('start SonarQube server in docker') {
-      steps {
-        sh 'docker compose -f sonarqube.yml up -d'
-      }
-    }
-
     stage('SonarQube analysis') {
       environment {
         scannerHome = tool 'safe-zone-scanner';
