@@ -8,7 +8,6 @@ import { UserDetails } from 'src/app/shared/models/user-details.model';
 @Component({
   selector: 'app-sign-up-page',
   templateUrl: './sign-up-page.component.html',
-  styleUrls: ['./sign-up-page.component.scss'],
 })
 export class SignUpPageComponent {
   isLoading = false;
