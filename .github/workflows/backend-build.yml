@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - "frontend/**"
+      - "backend/**"
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -17,6 +17,11 @@ jobs:
         with:
           # Disabling shallow clones is recommended for improving the relevancy of reporting
           fetch-depth: 0
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v4
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
