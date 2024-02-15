@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { finalize, firstValueFrom, tap } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import { Product } from 'src/app/shared/models/product.model';
 import { Result } from 'src/app/shared/models/result.model';
 import { ShoppingCartItem } from 'src/app/shared/models/shopping-cart-item.model';
@@ -33,7 +33,7 @@ export class ProductDetailsComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get('id') || '';
+    this.id = this.route.snapshot.paramMap.get('id') ?? '';
     if (!this.id) {
       this.result = {
         message: 'Product id is not found.',
@@ -46,12 +46,11 @@ export class ProductDetailsComponent implements OnInit {
       .getProductById(this.id)
       .pipe(
         finalize(() => (this.productLoaded = true)),
-        tap(
-          async (product: Product) =>
-            (this.owner = await firstValueFrom(
-              this.userService.getUserNameById(product.userId)
-            ))
-        )
+        tap((product: Product) => {
+          this.userService
+            .getUserNameById(product.userId)
+            .subscribe((owner) => (this.owner = owner));
+        })
       )
       .subscribe({
         next: (product: Product) => {

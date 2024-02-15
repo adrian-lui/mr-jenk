@@ -16,28 +16,23 @@ pipeline {
       }
     }
 
-    stage('SCM') {
-      checkout scm
+    stage('Frontend SonarQube analysis') {
+      environment {
+        scannerHome = tool 'safe-zone-scanner';
+      }
+      steps {
+        withSonarQubeEnv('safe-zone-server') { // If you have configured more than one global server connection, you can specify its name
+          sh "${scannerHome}/bin/sonar-scanner"
+        }
+      }
     }
     
-    stage('SonarQube Analysis') {
-      withSonarQubeEnv() {
-        sh "./gradlew sonar"
-      }
-    }
-
-    stage('backend gradle test') {
+    stage("Frontend Quality Gate") { 
       steps {
-        sh '''
-        gradle --version
-        cd backend
-        gradle test
-        cd ..
-        '''
-      }
-      post {
-        always {
-            junit '**/test-results/test/TEST-*.xml'
+        timeout(time: 1, unit: 'HOURS') {
+          // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+          // true = set pipeline to UNSTABLE, false = don't
+          waitForQualityGate abortPipeline: true
         }
       }
     }
@@ -52,6 +47,49 @@ pipeline {
         '''
       }
     }
+
+    stage('Backend SonarQube analysis') {
+      environment {
+        scannerHome = tool 'safe-zone-scanner';
+      }
+      steps {
+        withSonarQubeEnv('safe-zone-server') { // If you have configured more than one global server connection, you can specify its name
+          sh '''
+          cd backend
+          gradle wrapper
+          ./gradlew sonar
+          cd ..
+          '''
+        }
+      }
+    }
+    
+    stage("Backend Quality Gate") { 
+      steps {
+        timeout(time: 1, unit: 'HOURS') {
+          // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+          // true = set pipeline to UNSTABLE, false = don't
+          waitForQualityGate abortPipeline: true
+        }
+      }
+    }
+
+    stage('backend gradle test') {
+      steps {
+        sh '''
+        cd backend
+        gradle --version
+        gradle test
+        cd ..
+        '''
+      }
+      post {
+        always {
+            junit '**/test-results/test/TEST-*.xml'
+        }
+      }
+    }
+
 
     stage('Docker build and push images') {
       steps {
@@ -76,6 +114,7 @@ pipeline {
   post {
     always {
         sh "sudo rm -rf ./frontend/.angular" // clear bug cache
+        sh "docker compose down"
     }
     success {
       sh "sudo echo Last successful build is now ${env.BUILD_NUMBER}"

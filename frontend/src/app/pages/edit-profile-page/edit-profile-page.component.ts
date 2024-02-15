@@ -8,7 +8,6 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 @Component({
   selector: 'app-edit-profile-page',
   templateUrl: './edit-profile-page.component.html',
-  styleUrls: ['./edit-profile-page.component.scss'],
 })
 export class EditProfilePageComponent {
   isLoading = false;
@@ -31,7 +30,7 @@ export class EditProfilePageComponent {
 
   updateProfile(userDetails: Profile) {
     this.result = undefined;
-    if (!this.authService.profile || !this.authService.profile.id) {
+    if (!this.authService.profile?.id) {
       this.result = {
         type: 'error',
         message: 'Update profile goes wrong.',

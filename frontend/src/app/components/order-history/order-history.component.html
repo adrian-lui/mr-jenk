@@ -97,6 +97,7 @@
           [dataSource]="order.products"
           class="mat-elevation-z8"
           *ngIf="!fetchingOrderHistory"
+          aria-label="products order history list"
         >
           <ng-container matColumnDef="image">
             <th mat-header-cell *matHeaderCellDef>Image</th>

@@ -6,8 +6,9 @@ build/
 *.jar
 gradlew
 gradlew.bat
-.scannerwork
 sonar-scanner*
+**/.scannerwork
+**/coverage
 ### STS ###
 .apt_generated
 .classpath
@@ -19,7 +20,7 @@ sonar-scanner*
 bin/
 **/src/main/**/bin/
 **/src/test/**/bin/
-
+**/sonar-scanner*
 ### IntelliJ IDEA ###
 .idea
 *.iws

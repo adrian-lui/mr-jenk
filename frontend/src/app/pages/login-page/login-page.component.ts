@@ -5,7 +5,6 @@ import { Result } from 'src/app/shared/models/result.model';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent {
   public result: Result | null = null;

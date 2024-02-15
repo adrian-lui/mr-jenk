@@ -5,7 +5,6 @@ import { OrderStatus } from 'src/app/shared/models/order';
 @Component({
   selector: 'app-confirm-order-modify',
   templateUrl: './confirm-order-modify.component.html',
-  styleUrls: ['./confirm-order-modify.component.scss'],
 })
 export class ConfirmOrderModifyComponent {
   constructor(

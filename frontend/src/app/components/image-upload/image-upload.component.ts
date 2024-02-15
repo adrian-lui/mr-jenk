@@ -85,7 +85,7 @@ export class ImageUploadComponent implements OnInit {
     for (let i = 0; i < files.length; i++) {
       this.mediaService.uploadMedia(<File>files.item(i)).subscribe({
         next: (resp) => {
-          const imageId: string = resp.body || '';
+          const imageId: string = resp.body ?? '';
           if (this.singleImage) {
             this.imageUploaded = [];
           }
