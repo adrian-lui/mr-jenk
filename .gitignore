@@ -6,7 +6,8 @@ build/
 *.jar
 gradlew
 gradlew.bat
-
+.scannerwork
+sonar-scanner*
 ### STS ###
 .apt_generated
 .classpath
