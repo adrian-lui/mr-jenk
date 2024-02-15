@@ -4,7 +4,14 @@ plugins {
     id("io.freefair.lombok") version "8.3"
     id("org.springframework.boot") version "3.1.3"
     id("io.spring.dependency-management") version "1.1.3"
-    id("org.sonarqube") version "3.5.0.2730"
+    id("org.sonarqube") version "4.4.1.3373"
+}
+
+sonar {
+  properties {
+    property("sonar.projectKey", "adrian-lui_mr-jenk_c5358e82-6b26-41af-b14a-a865b03f30dc")
+    property("sonar.host.url", "http://safe-zone.northeurope.cloudapp.azure.com:9000")
+  }
 }
 
 allprojects {
