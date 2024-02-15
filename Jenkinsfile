@@ -27,7 +27,7 @@ pipeline {
       }
     }
     
-    stage("Quality Gate") { 
+    stage("Frontend Quality Gate") { 
       steps {
         timeout(time: 1, unit: 'HOURS') {
           // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
@@ -60,7 +60,7 @@ pipeline {
       }
     }
     
-    stage("Quality Gate") { 
+    stage("Backend Quality Gate") { 
       steps {
         timeout(time: 1, unit: 'HOURS') {
           // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
