@@ -54,9 +54,12 @@ pipeline {
       }
       steps {
         withSonarQubeEnv('safe-zone-server') { // If you have configured more than one global server connection, you can specify its name
-          sh "cd backend"
-          sh "gradle wrapper"
-          sh "./gradlew sonar"
+          sh '''
+          cd backend
+          gradle wrapper
+          ./gradlew sonar
+          cd ..
+          '''
         }
       }
     }
@@ -74,6 +77,7 @@ pipeline {
     stage('backend gradle test') {
       steps {
         sh '''
+        cd backend
         gradle --version
         gradle test
         cd ..
