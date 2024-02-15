@@ -9,8 +9,8 @@ plugins {
 
 sonar {
   properties {
-    property "sonar.projectKey", "safe-zone-backend"
-    property "sonar.projectName", "safe-zone-backend"
+    property("sonar.projectKey", "safe-zone-backend")
+    property("sonar.projectName", "safe-zone-backend")
   }
 }
 
