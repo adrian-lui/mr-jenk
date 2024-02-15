@@ -9,8 +9,8 @@ plugins {
 
 sonar {
   properties {
-    property("sonar.projectKey", "adrian-lui_mr-jenk_c5358e82-6b26-41af-b14a-a865b03f30dc")
-    property("sonar.host.url", "http://safe-zone.northeurope.cloudapp.azure.com:9000")
+    property "sonar.projectKey", "safe-zone-backend"
+    property "sonar.projectName", "safe-zone-backend"
   }
 }
 

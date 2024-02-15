@@ -16,7 +16,7 @@ pipeline {
       }
     }
 
-    stage('SonarQube analysis') {
+    stage('Frontend SonarQube analysis') {
       environment {
         scannerHome = tool 'safe-zone-scanner';
       }
@@ -26,29 +26,13 @@ pipeline {
         }
       }
     }
-
+    
     stage("Quality Gate") { 
       steps {
         timeout(time: 1, unit: 'HOURS') {
           // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
           // true = set pipeline to UNSTABLE, false = don't
           waitForQualityGate abortPipeline: true
-        }
-      }
-    }
-
-    stage('backend gradle test') {
-      steps {
-        sh '''
-        gradle --version
-        cd backend
-        gradle test
-        cd ..
-        '''
-      }
-      post {
-        always {
-            junit '**/test-results/test/TEST-*.xml'
         }
       }
     }
@@ -63,6 +47,44 @@ pipeline {
         '''
       }
     }
+
+    stage('Backend SonarQube analysis') {
+      environment {
+        scannerHome = tool 'safe-zone-scanner';
+      }
+      steps {
+        withSonarQubeEnv('safe-zone-server') { // If you have configured more than one global server connection, you can specify its name
+          sh "cd backend"
+          sh "./gradlew sonar"
+        }
+      }
+    }
+    
+    stage("Quality Gate") { 
+      steps {
+        timeout(time: 1, unit: 'HOURS') {
+          // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+          // true = set pipeline to UNSTABLE, false = don't
+          waitForQualityGate abortPipeline: true
+        }
+      }
+    }
+
+    stage('backend gradle test') {
+      steps {
+        sh '''
+        gradle --version
+        gradle test
+        cd ..
+        '''
+      }
+      post {
+        always {
+            junit '**/test-results/test/TEST-*.xml'
+        }
+      }
+    }
+
 
     stage('Docker build and push images') {
       steps {
