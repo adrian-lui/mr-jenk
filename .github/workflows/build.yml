@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    path:
+      - backend
   pull_request:
     types: [opened, synchronize, reopened]
 
