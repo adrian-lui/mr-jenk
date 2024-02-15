@@ -34,5 +34,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: gradle build sonar --info
+        run: |
+          gradle wrapper
+          ./gradlew sonar --info
         working-directory: backend
