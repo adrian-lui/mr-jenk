@@ -19,7 +19,7 @@ gradlew.bat
 bin/
 **/src/main/**/bin/
 **/src/test/**/bin/
-
+**/sonar-scanner*
 ### IntelliJ IDEA ###
 .idea
 *.iws
