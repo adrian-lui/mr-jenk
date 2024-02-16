@@ -6,6 +6,7 @@ build/
 *.jar
 gradlew
 gradlew.bat
+sonar-scanner*
 **/.scannerwork
 **/coverage
 ### STS ###
